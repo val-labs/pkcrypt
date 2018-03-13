@@ -1,10 +1,3 @@
-#!/usr/bin/env python
-"""
-pkcrypt - public key cryptography
-"""
-
-__version__ = "0.1.0"
-
 import os, sys, json, time, datetime, traceback as tb
 from fastecdsa import ecdsa, keys, curve
 from fastecdsa.point import Point
@@ -21,21 +14,16 @@ def _str2sig((t, r, s)):   return int(r,16), int(s,16)
 def str2sig (st):          return _str2sig(st.split(','))
 def sig2str ((r, s)):      return "- - S,%x,%x" % (r, s)
 
-def gen_sk():   return ( keys.gen_private_key(curve.P256) )
-def get_vk(sk): return ( keys.get_public_key(sk, curve.P256) )
-
-#def load_sk (f=sys.stdin): return str2sk( f.readlines()[-1])
-#def load_vk (f=sys.stdin): return str2vk( f.readline())
-#def load_sig(f=sys.stdin): return str2sig(f.readline ())
-#def load_msg(f=sys.stdin): return ''.join(f.readlines())
+def gen_sk():              return keys.gen_private_key(curve.P256)
+def get_vk(sk):            return keys.get_public_key(sk, curve.P256)
 
 def load_sk (f=sys.stdin): return str2sk( f.readlines()[-1].split()[-1])
-def load_vk (f=sys.stdin): return str2vk( f.readline().split()[-1])
+def load_vk (f=sys.stdin): return str2vk( f.readline ().split()[-1])
 def load_sig(f=sys.stdin): return str2sig(f.readline ().split()[-1])
 def load_msg(f=sys.stdin): return ''.join(f.readlines())
 
-def fload_sk (fn=''):       return load_sk( open(fn or sys.argv[2]) )
-def fload_vk (fn=''):       return load_vk( open(fn or sys.argv[2]) )
+def fload_sk (fn=''):      return load_sk( open(fn or sys.argv[2]) )
+def fload_vk (fn=''):      return load_vk( open(fn or sys.argv[2]) )
 
 def sign_with  (sk,      msg): return ecdsa.sign(msg, sk)
 def valid_sig  (vk, sig, msg): return ecdsa.verify(sig, msg, vk)
