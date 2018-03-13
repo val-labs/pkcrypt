@@ -2,6 +2,9 @@
 """
 pkcrypt - public key cryptography
 """
+
+__version__ = "0.1.0"
+
 import os, sys, json, time, datetime, traceback as tb
 from fastecdsa import ecdsa, keys, curve
 from fastecdsa.point import Point
@@ -34,14 +37,30 @@ def valid_sig  (vk, sig, msg): return ecdsa.verify(sig, msg, vk)
 def invalid_sig(vk, sig, msg): return not valid_sig(vk, sig, msg)
 
 def main():
+
+    eol, fname = '\n', ''
+
+    def getarg2(name):
+        if sys.argv[2] == name:
+            sys.argv.pop(2)
+            return 1
+
+    def output(msg):
+        with open(fname,'w') if fname else sys.stdout as f:
+            f.write(msg + eol)
+
+    if getarg2('-no'): eol = ''; fname = sys.argv.pop(2)
+    if getarg2('-n'):  eol = ''
+    if getarg2('-o'):            fname = sys.argv.pop(2)
+
     if   sys.argv[1] == 'gensk':
-        print(sk2str(gen_sk()))
+        output(sk2str(gen_sk()))
 
     elif sys.argv[1] == 'genvk':
-        print(vk2str(get_vk(fload_sk())))
+        output(vk2str(get_vk(fload_sk())))
         
     elif sys.argv[1] == 'sign':
-        print(sig2str(sign_with(fload_sk(), load_msg())))
+        output(sig2str(sign_with(fload_sk(), load_msg())))
 
     elif sys.argv[1] == 'verify':
         if invalid_sig(fload_vk(), load_sig(), load_msg()):
