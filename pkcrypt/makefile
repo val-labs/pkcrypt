@@ -1,1 +1,2 @@
-subdir2: ; make -C ..
+subdir2: ; @make -C ..
+clean:   ; @make -C .. clean
