@@ -1,5 +1,5 @@
 all: clean unit end2end
-clean: ; @rm -fr x.* *.pyc
+clean: ; @rm -fr x.* *.pyc */*.pyc
 unit:  ; @PYTHONPATH=. ./pkcrypt/test.py
 end2end:
 	@python -um pkcrypt gensk -o       x.sk
