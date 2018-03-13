@@ -23,7 +23,7 @@ def cli(argv=sys.argv):
     if   sys.argv[1] == 'gensk':
         output(sk2str(gen_sk()))
 
-    elif sys.argv[1] == 'genvk':
+    elif sys.argv[1] == 'getvk':
         output(vk2str(get_vk(fload_sk())))
         
     elif sys.argv[1] == 'genkey':
