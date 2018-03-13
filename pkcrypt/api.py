@@ -28,3 +28,7 @@ def fload_vk(fn=''):       return load_vk( open(fn or sys.argv[2]) )
 def sign_with  (sk,      msg): return ecdsa.sign(msg, sk)
 def valid_sig  (vk, sig, msg): return ecdsa.verify(sig, msg, vk)
 def invalid_sig(vk, sig, msg): return not valid_sig(vk, sig, msg)
+
+def gen_keys():
+    sk = gen_sk() ; vk = get_vk(sk)
+    return vk2str(vk), sk2str(sk)

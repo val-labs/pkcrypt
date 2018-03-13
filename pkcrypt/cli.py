@@ -26,6 +26,9 @@ def cli(argv=sys.argv):
     elif sys.argv[1] == 'genvk':
         output(vk2str(get_vk(fload_sk())))
         
+    elif sys.argv[1] == 'genkey':
+        output('%s\n%s' % gen_keys())
+    
     elif sys.argv[1] == 'sign':
         output(sig2str(sign_with(fload_sk(), load_msg())))
 
