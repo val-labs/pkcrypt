@@ -4,11 +4,11 @@ from fastecdsa.point import Point
 
 def _str2sk(t, sk):        return int(sk,16)
 def str2sk (st):           return _str2sk(*st.split(','))
-def sk2str (sk):           return "- - P,%x" % (sk)
+def sk2str (sk):           return "  - P,%x" % (sk)
 
 def _str2vk(t, x, y):      return Point(int(x,16), int(y,16), curve.P256)
 def str2vk (st):           return _str2vk(*st.split(','))
-def vk2str (vk):           return "- - V,%x,%x" % (vk.x, vk.y)
+def vk2str (vk):           return "  - V,%x,%x" % (vk.x, vk.y)
 
 def _str2sig(t, r, s):     return int(r,16), int(s,16)
 def str2sig (st):          return _str2sig(*st.split(','))
