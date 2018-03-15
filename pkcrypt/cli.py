@@ -18,7 +18,7 @@ def cli(argv=sys.argv):
             return
 
     def output(msg, _eol = None):
-        _eol if _eol is not None else eol
+        if _eol is None: _eol = eol
         with open(fname,'w') if fname else sys.stdout as f:
             f.write(msg + _eol)
 
