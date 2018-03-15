@@ -1,6 +1,11 @@
 #!/usr/bin/env python
 from pkcrypt import *
 
+def usage():
+    print("BAD ARGS")
+    print("Try one of: genpair, gensk, getvk, sign, verify")
+    raise exit(2)
+    
 def cli(argv=sys.argv):
     eol, fname = '\n', ''
 
@@ -20,25 +25,27 @@ def cli(argv=sys.argv):
     if getarg2('-n'):  eol = ''
     if getarg2('-o'):            fname = sys.argv.pop(2)
 
-    if   sys.argv[1] == 'gensk':
+    try:
+        arg1 = sys.argv[1]
+    except IndexError:
+        return usage()
+
+    if   arg1 == 'gensk':
         output(sk2str(gen_sk()))
-
-    elif sys.argv[1] == 'getvk':
+    elif arg1 == 'getvk':
         output(vk2str(get_vk(fload_sk())))
-        
-    elif sys.argv[1] == 'genkey':
+    elif arg1 == 'genpair':
         output('%s\n%s' % gen_keys())
-    
-    elif sys.argv[1] == 'sign':
-        output(sig2str(sign_with(fload_sk(), load_msg())))
-
-    elif sys.argv[1] == 'verify':
+    elif arg1 == 'sign':
+        msg = load_msg()
+        sgn = sig2str(sign_with(fload_sk(), msg))
+        if sys.argv[-1] == '-h': sgn += '\n' + msg
+        output(sgn)
+    elif arg1 == 'verify':
         if invalid_sig(fload_vk(), load_sig(), load_msg()):
             print("NOT VALID")
             exit(1)
-      
     else:
-        print("BAD ARGS")
-        raise exit(2)
+        return usage()
 
 if __name__ == '__main__': cli()
