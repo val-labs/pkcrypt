@@ -9,5 +9,5 @@ setup(name='pkcrypt',
       author_email='jmward@gmail.com',
       url='https://github.com/val-labs/pkcrypt/tree/master/pkcrypt',
       packages=['pkcrypt'],
-      scripts=['bin/pkcrypt'],
+      scripts=['bin/pkcrypt','bin/pkdcrypt','bin/pkecrypt'],
      )

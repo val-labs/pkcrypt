@@ -1,0 +1,14 @@
+#!/usr/bin/env python
+import os, sys
+from cryptography.fernet import Fernet
+
+def decode():
+    key = sys.stdin.readline()
+    cipher_suite = Fernet(key)
+    encoded_text = sys.stdin.read()
+
+    decoded_text = cipher_suite.decrypt(encoded_text)
+    sys.stdout.write(decoded_text)
+    return decoded_text
+
+decode()
