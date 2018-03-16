@@ -8,8 +8,8 @@ def encode():
     decoded_text = sys.stdin.read()
 
     encoded_text = cipher_suite.encrypt(decoded_text)
-    sys.stdout.write(key + '\n')
-    sys.stdout.write(encoded_text)
+    print(key)
+    print(encoded_text)
     return key, encoded_text
 
 encode()
