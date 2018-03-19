@@ -1,6 +1,20 @@
 #!/usr/bin/env python
 from pkcrypt import *
 
+def decode_cli():
+    key = sys.stdin.readline()
+    encoded_text = sys.stdin.read().encode()
+    _, decoded_text = decode(key, encoded_text)
+    sys.stdout.write(decoded_text.decode())
+
+def encode_cli():
+    key = Fernet.generate_key() #this is your "password"
+    cipher_suite = Fernet(key)
+    decoded_text = sys.stdin.read().encode()
+    key, encoded_text = encode(key, decoded_text)
+    print(key.decode())
+    print(encoded_text.decode())
+
 def usage():
     print("BAD ARGS")
     print("Try one of: genpair, gensk, getvk, sign, verify")
@@ -59,4 +73,3 @@ def cli(argv=sys.argv):
         return usage()
 
 if __name__ == '__main__': cli()
-

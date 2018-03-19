@@ -1,6 +1,7 @@
 import os, sys, json, time, datetime, traceback as tb
 from fastecdsa import ecdsa, keys, curve
 from fastecdsa.point import Point
+from cryptography.fernet import Fernet
 
 def _str2sk(t, sk):        return int(sk,16)
 def str2sk (st):           return _str2sk(*st.split(','))
@@ -32,3 +33,13 @@ def invalid_sig(vk, sig, msg): return not valid_sig(vk, sig, msg)
 def gen_keys():
     sk = gen_sk() ; vk = get_vk(sk)
     return vk2str(vk), sk2str(sk)
+
+def decode(key, encoded_text):
+    cipher_suite = Fernet(key)
+    decoded_text = cipher_suite.decrypt(encoded_text)
+    return key, decoded_text
+
+def encode(key, decoded_text):
+    cipher_suite = Fernet(key)
+    encoded_text = cipher_suite.encrypt(decoded_text)
+    return key, encoded_text
