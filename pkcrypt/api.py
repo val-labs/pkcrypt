@@ -25,10 +25,14 @@ def load_msg(f=sys.stdin): return ''.join(f.readlines())
 
 def fload_sk(fn=''):       return load_sk( open(fn or sys.argv[2]) )
 def fload_vk(fn=''):       return load_vk( open(fn or sys.argv[2]) )
+def fload_vkl(fn=''):      return open(fn or sys.argv[2]).readline()
 
 def sign_with  (sk,      msg): return ecdsa.sign(msg, sk)
 def valid_sig  (vk, sig, msg): return ecdsa.verify(sig, msg, vk)
-def invalid_sig(vk, sig, msg): return not valid_sig(vk, sig, msg)
+def invalid_sig(vk, sig, msg):
+    if vk is None:
+        vk = str2vk( msg.split('\n', 1)[0].split()[-1] )
+    return not valid_sig(vk, sig, msg)
 
 def gen_keys():
     sk = gen_sk() ; vk = get_vk(sk)

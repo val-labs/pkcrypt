@@ -53,6 +53,8 @@ def cli(argv=sys.argv):
         output('%s\n%s' % gen_keys())
     elif arg1 == 'sign':
         msg = load_msg()
+        if '-s' in sys.argv:
+            msg = fload_vkl() + msg
         sgn = sig2str(sign_with(fload_sk(), msg))
         if sys.argv[-1] == '-h':
             sgn += '\n' + msg
@@ -61,7 +63,14 @@ def cli(argv=sys.argv):
             output(sgn)
     elif arg1 == 'verify':
         try:
-            if invalid_sig(fload_vk(), load_sig(), load_msg()):
+            sig = load_sig()
+            msg = load_msg()
+            if '-s' in sys.argv:
+                vk = None
+            else:
+                vk = fload_vk()
+                pass
+            if invalid_sig(vk, sig, msg):
                 print("NOT VALID: MISMATCH")
                 exit(1)
         except SystemExit:
