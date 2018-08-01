@@ -61,6 +61,10 @@ def cli(argv=sys.argv):
             output(sgn, '')
         else:            
             output(sgn)
+    elif arg1 == 'test':
+        x = sign('x','p')
+        print(x)
+        print(verify(x))
     elif arg1 == 'verify':
         try:
             sig = load_sig()

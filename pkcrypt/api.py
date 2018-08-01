@@ -28,7 +28,10 @@ def fload_vk(fn=''):       return load_vk( open(fn or sys.argv[2]) )
 def fload_vkl(fn=''):      return open(fn or sys.argv[2]).readline()
 
 def sign_with  (sk,      msg): return ecdsa.sign(msg, sk)
-def valid_sig  (vk, sig, msg): return ecdsa.verify(sig, msg, vk)
+def valid_sig  (vk, sig, msg):
+    if vk is None:
+        vk = str2vk( msg.split('\n', 1)[0].split()[-1] )
+    return ecdsa.verify(sig, msg, vk)
 def invalid_sig(vk, sig, msg):
     if vk is None:
         vk = str2vk( msg.split('\n', 1)[0].split()[-1] )
@@ -47,3 +50,20 @@ def encode(key, decoded_text):
     cipher_suite = Fernet(key)
     encoded_text = cipher_suite.encrypt(decoded_text)
     return key, encoded_text
+
+def sign2(msg, fname, include_vk=True):
+    if include_vk:
+        msg = fload_vkl(fname) + msg
+        pass
+    sgn = sig2str(sign_with(fload_sk(fname), msg))
+    return sgn, msg
+
+def sign(*a):
+    return '\n'.join(sign2(*a))
+
+def verify2(sig_line, msg, vk=None):
+    sig = str2sig(sig_line.split()[-1])
+    return valid_sig(vk, sig, msg)
+
+def verify(msg, vk=None):
+    return verify2(*msg.split('\n', 1))
