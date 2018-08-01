@@ -5,7 +5,7 @@ try:
 except ImportError:
     from distutils.core import setup
 setup(name='pkcrypt',
-      version='1.1.0',
+      version='1.2.0',
       description='public key cryptography',
       author='Joel Ward',
       author_email='jmward@gmail.com',
